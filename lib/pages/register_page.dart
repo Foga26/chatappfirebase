@@ -1,5 +1,7 @@
+import 'package:chatappfirebase/services/auth/auth_service.dart';
 import 'package:chatappfirebase/components/my_button.dart';
 import 'package:chatappfirebase/components/my_text_field.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -10,7 +12,28 @@ class RegisterPage extends StatelessWidget {
   final void Function()? ontap;
 
   RegisterPage({super.key, required this.ontap});
-  void register() {}
+  void register(BuildContext context) {
+    final _auth = AuthService();
+    if (_passwordController.text == _confirmPasswordController.text) {
+      try {
+        _auth.signUpWithEmailPassword(
+            _emailController.text, _passwordController.text);
+      } catch (e) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text(e.toString()),
+                ));
+      }
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text('Password dont match'),
+              ));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +84,7 @@ class RegisterPage extends StatelessWidget {
             ),
             MyButton(
               text: 'Register',
-              onTap: register,
+              onTap: () => register(context),
             ),
             const SizedBox(
               height: 15,

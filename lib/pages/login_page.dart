@@ -1,4 +1,4 @@
-import 'package:chatappfirebase/auth/auth_service.dart';
+import 'package:chatappfirebase/services/auth/auth_service.dart';
 import 'package:chatappfirebase/components/my_button.dart';
 import 'package:chatappfirebase/components/my_text_field.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,7 @@ class LoginPage extends StatelessWidget {
       await authService.signInWithEmailPassword(
           _emailController.text, _passwordController.text);
     } catch (e) {
+      // ignore: use_build_context_synchronously
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
